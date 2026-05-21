@@ -1,1 +1,478 @@
-<h1>xxx公司主界面</h1>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Realms Games</title>
+    <!-- 引入谷歌字体：MedievalSharp（中世纪哥特风标题）和 Montserrat（标准现代正文） -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #0b0b0b;
+            --header-bg: #080808;
+            --text-main: #e0e0e0;
+            --text-muted: #666666;
+            --card-bg: #151515;
+            --card-border: #3a3a3a;
+        }
+
+        /* 基础样式重置 */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* 头部导航栏 */
+        header {
+            background-color: var(--header-bg);
+            border-bottom: 1px solid #141414;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        /* LOGO 区域 */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        /* LOGO 图片样式：自适应宽高且不拉伸变形 */
+        .logo-img {
+            width: 38px;
+            height: 38px;
+            object-fit: contain;
+        }
+
+        .logo-text h1 {
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            line-height: 1.1;
+        }
+
+        .logo-text span {
+            color: #888888;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            display: block;
+        }
+
+        /* 导航链接 */
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        /* 导航状态切换样式 */
+        .nav-links a.inactive {
+            color: var(--text-muted);
+        }
+
+        .nav-links a.inactive:hover {
+            color: #aaaaaa;
+        }
+
+        /* HOME 和 CONTACT 选中后，均统一显示为纯白色 */
+        .nav-links a.active-home,
+        .nav-links a.active-contact {
+            color: #ffffff;
+        }
+
+        .nav-divider {
+            color: #333333;
+            user-select: none;
+        }
+
+        /* 主体布局 */
+        main {
+            flex-grow: 1;
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ==================== 视图 1：HOME 页面 ==================== */
+        #games-view {
+            padding-bottom: 60px;
+        }
+
+        /* 游戏海报容器 */
+        .banner {
+            position: relative;
+            width: 100%;
+            height: 420px;
+            margin-top: 40px;
+            border-radius: 6px;
+            overflow: hidden;
+            background-color: #050505;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+        }
+
+        /* 游戏海报背景图样式：铺满容器且不变形 */
+        .banner-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        /* 海报前景色，用于使背景变暗，提升上方文字的阅读体验 */
+        .banner-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.7));
+            z-index: 2;
+        }
+
+        /* 文字内容浮层 */
+        .banner-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 3;
+            pointer-events: none; /* 防止遮挡下层点击 */
+        }
+
+        .banner-content h2 {
+            font-family: 'MedievalSharp', cursive;
+            font-size: 3.5rem;
+            color: #ffffff;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.9), 0 0 20px rgba(0,0,0,0.6);
+        }
+
+        .banner-content p {
+            font-size: 1.15rem;
+            font-weight: 600;
+            letter-spacing: 5px;
+            color: #e0e0e0;
+            text-transform: uppercase;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.9);
+        }
+
+        /* 关于我们部分 */
+        .about-section {
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .gothic-title {
+            font-family: 'MedievalSharp', cursive;
+            font-size: 2rem;
+            color: #ffffff;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+        }
+
+        .about-content {
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        .about-content p {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: #999999;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        /* ==================== 视图 2：CONTACT 页面 ==================== */
+        #contact-view {
+            padding-bottom: 60px;
+        }
+
+        /* 联系卡片容器 */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        /* 卡片样式 - 支持九宫格切图 */
+        .card {
+            background-color: var(--card-bg);
+            
+            /* 回退边框：如果图片加载失败，默认采用该边框 */
+            border: 4px double var(--card-border);
+            outline: 1px solid #070707;
+            border-radius: 4px;
+
+            /* 引入九宫格边框图片 */
+            border-image-source: url('card-border.png');
+            border-image-slice: 16 fill;
+            border-image-width: 16px;
+            border-image-repeat: stretch;
+
+            padding: 35px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.8), inset 0 0 25px rgba(0,0,0,0.9);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            border-color: #555555;
+        }
+
+        .card h3 {
+            font-size: 1.35rem;
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 18px;
+            letter-spacing: 0.5px;
+        }
+
+        .card p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #aaaaaa;
+        }
+
+        /* 页脚区域 */
+        footer {
+            background-color: var(--header-bg);
+            border-top: 1px solid #141414;
+            padding: 35px 20px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #555555;
+            line-height: 1.8;
+            margin-top: auto;
+        }
+
+        footer p {
+            margin-bottom: 4px;
+        }
+
+        footer a {
+            color: #666666;
+            text-decoration: none;
+            border-bottom: 1px dotted #333;
+            transition: color 0.2s, border-color 0.2s;
+        }
+
+        footer a:hover {
+            color: #999999;
+            border-bottom-color: #666;
+        }
+
+        /* 隐藏视图工具类 */
+        .hidden {
+            display: none !important;
+        }
+
+        /* ==================== 响应式适配媒体查询 ==================== */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px 20px;
+            }
+
+            .banner {
+                height: 250px;
+                margin-top: 20px;
+                border-radius: 4px;
+            }
+
+            .banner-content h2 {
+                font-size: 2.0rem;
+            }
+
+            .banner-content p {
+                font-size: 0.85rem;
+                letter-spacing: 3px;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                margin-top: 30px;
+            }
+
+            .card {
+                padding: 25px;
+            }
+
+            .card h3 {
+                font-size: 1.15rem;
+                margin-bottom: 12px;
+            }
+
+            .card p {
+                font-size: 0.9rem;
+            }
+
+            .gothic-title {
+                font-size: 1.7rem;
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 顶部导航栏 -->
+    <header>
+        <a href="#" class="logo" id="logo-link">
+            <img src="logo.png" alt="Logo" class="logo-img">
+            <div class="logo-text">
+                <h1>NEXUS REALMS</h1>
+                <span>GAMES</span>
+            </div>
+        </a>
+        
+        <!-- 导航菜单 -->
+        <nav class="nav-links">
+            <a id="nav-games" class="active-home">HOME</a>
+            <span class="nav-divider">|</span>
+            <a id="nav-contact" class="inactive">CONTACT</a>
+        </nav>
+    </header>
+
+    <!-- 主体区域 -->
+    <main>
+        
+        <!-- 视图 1：GAMES 页面 -->
+        <div id="games-view">
+            <!-- 游戏特色横幅海报 -->
+            <div class="banner">
+                <img src="banner.jpg" alt="Game Banner" class="banner-img">
+                <div class="banner-overlay"></div>
+                
+                <!-- 覆盖在图形上方的文字 -->
+                <div class="banner-content">
+                    <h2>"ProjectX：Dark Dungeon"</h2>
+                    <p>Coming Soon</p>
+                </div>
+            </div>
+
+            <!-- 关于我们介绍 -->
+            <div class="about-section">
+                <h2 class="gothic-title">About Us</h2>
+                <div class="about-content">
+                    <p>We are an independent game studio based in Chengdu, China, dedicated to creating deep, challenging, and immersive idle game experiences for players worldwide.</p>
+                    <p>We are an independent game studio based in Chengdu...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 视图 2：CONTACT 页面 (默认隐藏) -->
+        <div id="contact-view" class="hidden">
+            <div class="about-section" style="margin-top: 40px;">
+                <h2 class="gothic-title">Contact Us</h2>
+            </div>
+            
+            <div class="cards-grid">
+                <!-- 办公地址卡片 -->
+                <div class="card">
+                    <h3>Office Address:</h3>
+                    <p>Unit 401, Building C, Hi-Tech Software Park, No. 8 Keyuan South Road, Gaoxin District, Chengdu, China</p>
+                </div>
+                
+                <!-- 电子邮箱卡片 -->
+                <div class="card">
+                    <h3>Corporate Email:</h3>
+                    <p>12345@suport.com</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- 全局页脚 -->
+    <footer>
+        <p>&copy; 2026 Nexus Realms Games, Inc. All Rights Reserved.</p>
+        <p>Contact: <a href="mailto:12345@suport.com">12345@suport.com</a></p>
+        <p>[ <a href="privacy.html" target="_blank">Privacy Policy</a> ] | [ <a href="terms.html" target="_blank">Terms of Service</a> ]</p>
+    </footer>
+
+    <!-- 原生交互 JS 逻辑 -->
+    <script>
+        const navGames = document.getElementById('nav-games');
+        const navContact = document.getElementById('nav-contact');
+        const logoLink = document.getElementById('logo-link');
+        
+        const gamesView = document.getElementById('games-view');
+        const contactView = document.getElementById('contact-view');
+
+        // 切换到HOME视图的函数
+        function showGamesView() {
+            gamesView.classList.remove('hidden');
+            contactView.classList.add('hidden');
+            navGames.className = 'active-home';
+            navContact.className = 'inactive';
+        }
+
+        // 切换到联系我们视图的函数
+        function showContactView() {
+            gamesView.classList.add('hidden');
+            contactView.classList.remove('hidden');
+            navGames.className = 'inactive';
+            navContact.className = 'active-contact';
+        }
+
+        // 绑定点击事件
+        navGames.addEventListener('click', (e) => {
+            e.preventDefault();
+            showGamesView();
+        });
+
+        navContact.addEventListener('click', (e) => {
+            e.preventDefault();
+            showContactView();
+        });
+
+        logoLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showGamesView();
+        });
+    </script>
+</body>
+</html>
