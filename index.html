@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus Realms Games</title>
+    <title>Voidrift Games</title>
     <!-- 引入谷歌字体：MedievalSharp（中世纪哥特风标题）和 Montserrat（标准现代正文） -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -53,13 +53,17 @@
             align-items: center;
             gap: 12px;
             text-decoration: none;
+            overflow: visible;
+            cursor: default;
         }
 
         /* LOGO 图片样式：自适应宽高且不拉伸变形 */
         .logo-img {
-            width: 38px;
-            height: 38px;
+            width: 84px;
+            height: auto;
             object-fit: contain;
+            display: block;
+            flex: 0 0 auto;
         }
 
         .logo-text h1 {
@@ -184,6 +188,7 @@
             margin-bottom: 8px;
             letter-spacing: 2px;
             text-shadow: 0 4px 15px rgba(0,0,0,0.9), 0 0 20px rgba(0,0,0,0.6);
+            line-height: 1.2;
         }
 
         .banner-content p {
@@ -193,6 +198,14 @@
             color: #e0e0e0;
             text-transform: uppercase;
             text-shadow: 0 2px 8px rgba(0,0,0,0.9);
+        }
+
+        /* 
+          移动端专用的换行标记控制 
+          默认在电脑端不换行（隐藏），手机端自适应生效（显示） 
+        */
+        .mobile-br {
+            display: none;
         }
 
         /* 关于我们部分 */
@@ -315,6 +328,10 @@
                 padding: 15px 20px;
             }
 
+            .logo-img {
+                width: 76px;
+            }
+
             .banner {
                 height: 250px;
                 margin-top: 20px;
@@ -328,6 +345,11 @@
             .banner-content p {
                 font-size: 0.85rem;
                 letter-spacing: 3px;
+            }
+
+            /* 在手机端开启换行标记 */
+            .mobile-br {
+                display: inline;
             }
 
             .cards-grid {
@@ -360,13 +382,13 @@
 
     <!-- 顶部导航栏 -->
     <header>
-        <a href="#" class="logo" id="logo-link">
-            <img src="logo.png" alt="Logo" class="logo-img">
+        <div class="logo">
+            <img src="logo.png" alt="Voidrift Games Logo" class="logo-img">
             <div class="logo-text">
-                <h1>NEXUS REALMS</h1>
+                <h1>VOIDRIFT</h1>
                 <span>GAMES</span>
             </div>
-        </a>
+        </div>
         
         <!-- 导航菜单 -->
         <nav class="nav-links">
@@ -386,9 +408,9 @@
                 <img src="banner.jpg" alt="Game Banner" class="banner-img">
                 <div class="banner-overlay"></div>
                 
-                <!-- 覆盖在图形上方的文字 -->
+                <!-- 移动端自适应换行 -->
                 <div class="banner-content">
-                    <h2>"Idle Dark Dungeon"</h2>
+                    <h2>ProjectX：<br class="mobile-br">Dark Dungeon</h2>
                     <p>Coming Soon</p>
                 </div>
             </div>
@@ -397,8 +419,8 @@
             <div class="about-section">
                 <h2 class="gothic-title">About Us</h2>
                 <div class="about-content">
-                    <p>We are an independent game studio based in Chengdu, China, dedicated to creating deep, challenging, and immersive idle game experiences for players worldwide.</p>
-                    <p>We are an independent game studio based in Chengdu...</p>
+                    <!-- 替换为精简的一段式关于我们文本 -->
+                    <p>Voidrift Games is an independent studio in Chengdu, dedicated to quality, depth, and player respect. We believe games should be born from passion, not market metrics. By constantly pushing boundaries across genres, we build immersive worlds that earn lasting recognition globally. At Voidrift, we turn every session into a meaningful exploration.</p>
                 </div>
             </div>
         </div>
@@ -413,13 +435,13 @@
                 <!-- 办公地址卡片 -->
                 <div class="card">
                     <h3>Office Address:</h3>
-                    <p>Unit 401, Building C, Hi-Tech Software Park, No. 8 Keyuan South Road, Gaoxin District, Chengdu, China</p>
+                    <p>Room 2805, 28th Floor, Building 3, No. 138 Tianfu 2nd Street, High-tech Zone, Chengdu, Sichuan Free Trade Zone, China</p>
                 </div>
                 
                 <!-- 电子邮箱卡片 -->
                 <div class="card">
                     <h3>Corporate Email:</h3>
-                    <p>12345@suport.com</p>
+                    <p>contact@voidriftgames.com</p>
                 </div>
             </div>
         </div>
@@ -428,9 +450,8 @@
 
     <!-- 全局页脚 -->
     <footer>
-        <p>&copy; 2026 Nexus Realms Games, Inc. All Rights Reserved.</p>
-        <p>Contact: <a href="mailto:12345@suport.com">12345@suport.com</a></p>
-        <!-- 已移除 target="_blank"，实现当前窗口/页签直接跳转 -->
+        <p>&copy; 2026 Voidrift Games. All Rights Reserved.</p>
+        <p>Contact: <a href="mailto:contact@voidriftgames.com">contact@voidriftgames.com</a></p>
         <p>[ <a href="privacy.html">Privacy Policy</a> ] | [ <a href="terms.html">Terms of Service</a> ]</p>
     </footer>
 
@@ -438,8 +459,6 @@
     <script>
         const navGames = document.getElementById('nav-games');
         const navContact = document.getElementById('nav-contact');
-        const logoLink = document.getElementById('logo-link');
-        
         const gamesView = document.getElementById('games-view');
         const contactView = document.getElementById('contact-view');
 
@@ -468,11 +487,6 @@
         navContact.addEventListener('click', (e) => {
             e.preventDefault();
             showContactView();
-        });
-
-        logoLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            showGamesView();
         });
     </script>
 </body>
